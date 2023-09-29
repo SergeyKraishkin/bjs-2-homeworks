@@ -37,6 +37,8 @@ class AlarmClock {
         }
     }
     stop() {
+        let currentime = this.getCurrentFormattedTime();
+        this.removeClock(currentime);
         this.intervalId = null;
     }
     resetAllCalls() {
