@@ -7,7 +7,7 @@ class AlarmClock {
         if (time === undefined || time === null || callback === undefined) {
             throw new Error("Отсутствуют обязательные аргументы");
         }
-        if ((this.alarmCollection.findIndex(el => el.time === time)) != -1) {
+        if ((this.alarmCollection.find(el => el.time === time))) {
             console.warn("Уже присутствует звонок на это же время");
         }
         this.alarmCollection.push({
@@ -23,8 +23,8 @@ class AlarmClock {
     getCurrentFormattedTime() {
         let currentTime = new Date();
         let timeFormat = t => ("" + t).padStart(2, '0')
-        let newTimeFormat = timeFormat(currentTime.getHours()) + ":" + timeFormat(currentTime.getMinutes());
-        return newTimeFormat;
+            /*let newTimeFormat = timeFormat(currentTime.getHours()) + ":" + timeFormat(currentTime.getMinutes());*/
+        return timeFormat(currentTime.getHours()) + ":" + timeFormat(currentTime.getMinutes());
     }
     start() {
         if (!this.intervalId) {
