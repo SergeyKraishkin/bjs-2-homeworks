@@ -27,13 +27,13 @@ class AlarmClock {
         return timeFormat(currentTime.getHours()) + ":" + timeFormat(currentTime.getMinutes());
     }
     start() {
-        if (!this.intervalId) {
-            this.alarmCollection.forEach((element) => {
+        while (!this.intervalId) {
+            this.intervalId = setInterval(this.alarmCollection.forEach((element) => {
                 if (element.time === this.getCurrentFormattedTime() && element.canCall) {
                     element.canCall = false;
                     element.callback();
                 }
-            });
+            }), 1000);
         }
     }
     stop() {
