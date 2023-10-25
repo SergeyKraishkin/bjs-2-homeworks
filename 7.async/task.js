@@ -4,7 +4,7 @@ class AlarmClock {
         this.intervalId = null;
     }
     addClock(time, callback) {
-        if (time === undefined || time === null || callback === undefined) {
+        if (!time || !callback) {
             throw new Error("Отсутствуют обязательные аргументы");
         }
         if ((this.alarmCollection.find(el => el.time === time))) {
@@ -27,22 +27,25 @@ class AlarmClock {
         return timeFormat(currentTime.getHours()) + ":" + timeFormat(currentTime.getMinutes());
     }
     start() {
-        while (!this.intervalId) {
-            this.intervalId = setInterval(this.alarmCollection.forEach((element) => {
-                if (element.time === this.getCurrentFormattedTime() && element.canCall) {
-                    element.canCall = false;
-                    element.callback();
-                }
-            }), 1000);
+        if (this.intervalId) {
+            // завершаем метод
+        } else {
+            this.intervalId = setInterval(() => {
+                this.alarmCollection.forEach((element) => {
+                    if (element.time === this.getCurrentFormattedTime() && element.canCall) {
+                        element.canCall = false;
+                        element.callback();
+                    }
+                })
+            }, 1000);
         }
     }
     stop() {
-        let currentime = this.getCurrentFormattedTime();
-        this.removeClock(currentime);
+        clearInterval(this.intervalId);
         this.intervalId = null;
     }
     resetAllCalls() {
-        const temp = this.alarmCollection.forEach((element) => {
+        this.alarmCollection.forEach((element) => {
             element.canCall = true;
         });
 
